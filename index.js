@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 const { token } = require('./credential');
-const { displayGuildsAndChannels, getGeneralTextChannel, helloWorld, kick, help } = require('./functions');
+const { displayGuildsAndChannels, getGeneralTextChannel, 
+    checkProfanity,
+    helloWorld, kick, help } = require('./functions');
 
 const client = new Discord.Client();
 let channel =  null;
@@ -26,8 +28,10 @@ client.on('message', message => {
     // if the message does not have a guild do nothing
     if (!message.guild) return;
 
-    // TODO: add check to see if the message contains swear words
+    // check for bad words
+    checkProfanity(message, channel);
 
+    // check commands
     if      (message.content.startsWith('!kick'))   kick(message);
     else if (message.content.startsWith('!hello'))  helloWorld(message, channel);
     else if (message.content.startsWith('!help'))   help(channel);

@@ -1,3 +1,5 @@
+const { profanity } = require('./profanity');
+
 // given a client, display all the guilds and channels the client is in
 exports.displayGuildsAndChannels = (client) => {
     client.guilds.forEach(guild => {
@@ -13,7 +15,7 @@ exports.getGeneralTextChannel = (client) => {
     let textChannel = 'No General Text Channel'
 
     client.guilds.forEach(guild => {
-        if(guild.name === 'Scotts Tots') {
+        if(guild.name === 'Dad Server') {
             guild.channels.forEach(channel => {
                 if(channel.name === 'general') {
                     textChannel = channel.id;
@@ -23,6 +25,17 @@ exports.getGeneralTextChannel = (client) => {
     });
 
     return textChannel;
+}
+
+// check for bad words
+exports.checkProfanity = (message, channel) => {
+    const messageWords = message.content.split(' ');
+
+    profanity.forEach(word => {
+        messageWords.forEach(mesWord => {
+            if(mesWord === word) channel.send(`${message.author} don\'t say no-no words`);
+        });
+    });
 }
 
 // if user types !hello, reply 
