@@ -13,9 +13,13 @@ exports.getGeneralTextChannel = (client) => {
     let textChannel = 'No General Text Channel'
 
     client.guilds.forEach(guild => {
-        guild.channels.forEach(channel => {
-            if(channel.name === 'general') textChannel = channel.id;
-        });
+        if(guild.name === 'Scotts Tots') {
+            guild.channels.forEach(channel => {
+                if(channel.name === 'general') {
+                    textChannel = channel.id;
+                }
+            });
+        }
     });
 
     return textChannel;
@@ -28,9 +32,13 @@ exports.helloWorld = (message, channel) => {
 
 // if user types !kick, then kick the user
 exports.kick = (message) => {
-    console.log(message);
-
     const user = message.mentions.users.first();
+
+    if(!message.member.roles.find(r => r.name === "GOAT")) {
+        message.reply('You don\'t have kick permission, dumbass');
+        return;
+    }
+
 
     if (user) {
         const member = message.guild.member(user);
