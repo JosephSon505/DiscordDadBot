@@ -5,6 +5,7 @@ const { profanity } = require('./profanity');
 exports.displayGuildsAndChannels = (client) => {
     client.guilds.forEach(guild => {
         console.log(guild.name);
+
         guild.channels.forEach(channel => {
             console.log(` - ${channel.name}: ${channel.type} ${channel.id}`);
         });
@@ -79,8 +80,36 @@ exports.terrible = (channel) => {
     channel.send(attachment);
 }
 
+exports.ban = (message) => {
+    // 633847834801602565 is my id number; only I have the authority to ban someone
+    if(message.member.user.id !== '633847834801602565') {
+        message.reply('I don\'t listen to betas. Sorry');
+    } else {
+
+        const user = message.mentions.users.first();
+        if(user) {
+            const member = message.guild.member(user);
+
+            if (member) {
+                member.ban({
+                  reason: 'Dad told me to',
+                }).then(() => {
+                  message.reply(`Yes Dad, I ban-hammered ${user.tag}`);
+                }).catch(err => {
+                  message.reply('Sorry Dad, I was unable to ban the member');
+                  console.error(err);
+                });
+            } else {
+                message.reply('Dad, that user isn\'t in this guild!');
+            }
+        } else {
+            message.reply('Dad, You didn\'t mention a user to ban-hammer');
+        }
+    }
+}
+
 // gives the user the commands you can type
 exports.help = (channel) => {
-    let commands = '!hello\n!kick\n!help';
+    let commands = '!hello\n!kick\n!ban\n!terrible\n!help';
     channel.send(`Here are the commands:\n${commands}`);
 }

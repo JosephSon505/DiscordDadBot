@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const { token } = require('./credential');
 const { displayGuildsAndChannels, getGeneralTextChannel, 
     checkProfanity,
-    helloWorld, kick, terrible, help } = require('./functions');
+    helloWorld, kick, terrible, ban, help } = require('./functions');
 
 const client = new Discord.Client();
 let channel =  null;
@@ -32,10 +32,11 @@ client.on('message', message => {
     checkProfanity(message, channel);
 
     // check commands
-    if      (message.content.startsWith('!kick'))   kick(message);
-    else if (message.content.startsWith('!hello'))  helloWorld(message, channel);
-    else if (message.content.startsWith('!help'))   help(channel);
-    else if (message.content.startsWith('!terrible')) terrible(channel);
+    if      (message.content.startsWith('!kick'))       kick(message);
+    else if (message.content.startsWith('!hello'))      helloWorld(message, channel);
+    else if (message.content.startsWith('!help'))       help(channel);
+    else if (message.content.startsWith('!terrible'))   terrible(channel);
+    else if (message.content.startsWith('!ban'))        ban(message);
 });
 
 client.login(token);
