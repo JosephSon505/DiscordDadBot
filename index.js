@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const { token } = require('./credential');
 const { displayGuildsAndChannels, getGeneralTextChannel, 
     checkProfanity,
-    helloWorld, kick, terrible, ban, help } = require('./functions');
+    helloWorld, kick, terrible, ban, joke, badCommand, help } = require('./functions');
 
 const client = new Discord.Client();
 let channel =  null;
@@ -37,6 +37,8 @@ client.on('message', message => {
     else if (message.content.startsWith('!help'))       help(channel);
     else if (message.content.startsWith('!terrible'))   terrible(channel);
     else if (message.content.startsWith('!ban'))        ban(message);
+    else if (message.content.startsWith('!joke'))       joke(message);
+    else if (message.content.startsWith('!'))           badCommand(message);
 });
 
 client.login(token);

@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const axios = require('axios');
 const { profanity } = require('./profanity');
 
 // given a client, display all the guilds and channels the client is in
@@ -75,11 +76,13 @@ exports.kick = (message) => {
     message.reply('Kick function is being worked on right now. Be patient');
 }
 
+// return picture for terrible comment
 exports.terrible = (channel) => {
     const attachment = new Discord.Attachment('terrible.JPG');
     channel.send(attachment);
 }
 
+// if I call for ban, then ban 
 exports.ban = (message) => {
     // 633847834801602565 is my id number; only I have the authority to ban someone
     if(message.member.user.id !== '633847834801602565') {
@@ -108,8 +111,23 @@ exports.ban = (message) => {
     }
 }
 
+// returns a random dad joke from api
+exports.joke = (message) => {
+    axios.get('https://us-central1-dadsofunny.cloudfunctions.net/DadJokes/random/jokes').then(res => {
+        message.reply(`${res.data.setup}...\n${res.data.punchline}`);
+    }).catch(err => {
+        console.log(err);
+        message.reply('Dad Bot can\'t think of a joke right now...');
+    });
+}
+
+// user gives a bad command 
+exports.badCommand = (message) => {
+    message.reply('Son, that\'s a bad command. Try typing !help for some real commands');
+}
+
 // gives the user the commands you can type
 exports.help = (channel) => {
-    let commands = '!hello\n!kick\n!ban\n!terrible\n!help';
+    let commands = '!hello\n!kick\n!ban\n!terrible\n!joke\n!help';
     channel.send(`Here are the commands:\n${commands}`);
 }
